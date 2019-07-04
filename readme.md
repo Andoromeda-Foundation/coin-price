@@ -21,7 +21,8 @@ docker-compose up -d --build
 - ~~more coin-pairs~~
 - ~~error handler~~
 - ~~log printer~~
-- mini calculator
+- ~~mini calculator~~
+- FrontEnd (with andoExchange)
 - ...
 
 ## Contribute Guide

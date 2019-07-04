@@ -35,15 +35,33 @@ app.get('/v1/price', function (req, res) {
     console.log(`Request from ${req.ip} with method ${req.method} originalUrl ${req.originalUrl}`);
     const source = req.query.source;
     const convert = req.query.convert;
+    // TBD: Verify parameters...
     mongo.getLatest2(source, convert, function(price) {
         if (price) {
-            res.json({ source, convert, price: price[0].value, 
+            res.json({ code: 0, source, convert, price: price[0].value, 
                 add_time: price[0].add_time, platform: price[0].platform, 
                 update_time: price[0].update_time });
         } else {
-            res.json({status: 999});
+            res.json({ code: 999 });
         }
     });
+})
+
+app.get('/v1/exchange', function(req, res) {
+    console.log(`Request from ${req.ip} with method ${req.method} originalUrl ${req.originalUrl}`);
+    const source = req.query.source;
+    const amount = req.query.amount;
+    const convert = req.query.convert;
+    mongo.getLatest2(source, convert, function(price) {
+        if (price) {
+            const changed = amount * price[0].value;
+            res.json({ code: 0, source, convert, price: price[0].value, changed,
+                add_time: price[0].add_time, platform: price[0].platform, 
+                update_time: price[0].update_time });
+        } else {
+            res.json({ code: 999 });
+        }
+    })
 })
 
 app.listen(port, function() {
