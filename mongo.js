@@ -42,14 +42,14 @@ module.exports.getLatest2 = function(token, callback) {
     })
 }
 
-module.exports.addLatest = function(source, convert, price) {
+module.exports.addLatest = function(source, convert, price, platform, update_time) {
     MongoClient.connect(url, { useNewUrlParser: true }, function(err, db) {
         if (err) {
             console.log(err);
             return;
         }
         const current_time = new Date();
-        const newPrice = { token: source, base: convert, value: price, update_time: current_time };
+        const newPrice = { token: source, base: convert, value: price, add_time: current_time, platform, update_time };
         const dbobj = db.db('coin-price-test');
         dbobj.collection('prices').insertOne(newPrice, function(err, res) {
             if (err) {

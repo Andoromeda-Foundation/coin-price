@@ -4,7 +4,7 @@
 1. Add config.json
 ```
 {
-    "prod":{
+    "dev":{
         "node_host": "localhost",
         "node_port": 0,
         "mongo_host": "mongo",
@@ -30,6 +30,10 @@ docker-compose up -d --build
 - config file generator
 - more API format
 - API user identity verify
+- ~~more coin-pairs~~
+- error handler
+- log printer
+- mini calculator
 - ...
 
 ## Contribute Guide

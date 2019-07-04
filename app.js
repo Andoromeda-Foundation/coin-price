@@ -3,6 +3,7 @@ Coin Price API Server...
 Part of Smart Signature Project...
 Created on July 3 2019
 */
+const _ = require('lodash')
 const cron = require('node-cron');
 const mongo = require('./mongo');
 const sch = require('./schedule');
@@ -14,7 +15,9 @@ const port = defaultConfig.node_port;
 
 cron.schedule('*/2 * * * *', function() {
     sch.schtest();
-    sch.updateCoinPrice('ETH', 'USD');
+    _.each(defaultConfig.coin_pairs, function (pair) {
+        sch.updateCoinPrice(pair.source, pair.convert);
+    })
 })
 
 // 允许跨站请求CORS
@@ -32,8 +35,10 @@ app.get('/v1/price', function (req, res) {
     const source = req.query.source;
     const convert = req.query.convert;
     mongo.getLatest2(source, function(price) {
-        if (res) {
-            res.json({ source, convert, price: price[0].value, update_time: price[0].update_time });
+        if (price) {
+            res.json({ source, convert, price: price[0].value, 
+                add_time: price[0].add_time, platform: price[0].platform, 
+                update_time: price[0].update_time });
         } else {
             res.json({status: 999});
         }
@@ -41,5 +46,5 @@ app.get('/v1/price', function (req, res) {
 })
 
 app.listen(port, function() {
-    console.log(`Application is listening on http://localhost:${port}`);
+    console.log(`Application is listening on http://localhost:${port} ...`);
 })

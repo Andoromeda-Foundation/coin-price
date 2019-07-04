@@ -14,6 +14,7 @@ module.exports.schtest = function() {
 }
 
 module.exports.updateCoinPrice = function(source, convert) {
+    console.log(`Catching ${source} to ${convert} price from CoinMarketCap...`)
     const options = {
         method: 'GET',
         url: `https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest?symbol=${source}&convert=${convert}`,
@@ -31,6 +32,7 @@ module.exports.updateCoinPrice = function(source, convert) {
         // console.log(body);
         console.log('Latest Price Catched...');
         const resData = JSON.parse(body);
-        mongo.addLatest(source, convert, resData['data'][source]['quote'][convert]['price']);
+        mongo.addLatest(source, convert, resData['data'][source]['quote'][convert]['price'], 
+            'CoinMarketCap', resData['data'][source]['quote'][convert]['last_updated']);
     })
 }
