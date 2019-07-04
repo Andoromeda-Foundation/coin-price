@@ -37,13 +37,18 @@ module.exports.getLatest2 = function(token, base, callback) {
                 console.log(err);
                 callback(null);
             }
-            callback(result);
+            if (result.length) {
+                callback(result);
+            } else {
+                callback(null);
+            }
         })
     })
 }
 
 module.exports.addLatest = function(source, convert, price, platform, update_time) {
     MongoClient.connect(url, { useNewUrlParser: true }, function(err, db) {
+        // Error handler Verified
         if (err) {
             console.log(err);
             return;
@@ -52,6 +57,7 @@ module.exports.addLatest = function(source, convert, price, platform, update_tim
         const newPrice = { token: source, base: convert, value: price, add_time: current_time, platform, update_time };
         const dbobj = db.db('coin-price-test');
         dbobj.collection('prices').insertOne(newPrice, function(err, res) {
+            // I have no idea if the Error will occur...
             if (err) {
                 console.log(err);
                 return;

@@ -31,7 +31,7 @@ docker-compose up -d --build
 - more API format
 - API user identity verify
 - ~~more coin-pairs~~
-- error handler
+- ~~error handler~~
 - ~~log printer~~
 - mini calculator
 - ...
