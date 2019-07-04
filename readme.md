@@ -15,7 +15,7 @@ docker-compose up -d --build
 - Based on [Expressjs](https://expressjs.com/) and [Mongodb](https://www.mongodb.com/)
 
 ## TBD
-- config file generator
+- ~~config file generator~~
 - more API format
 - API user identity verify
 - ~~more coin-pairs~~

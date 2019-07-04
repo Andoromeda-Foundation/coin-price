@@ -2,6 +2,7 @@ version: '2.1'
 
 services:
   coin-price:
+    restart: always
     image: coin-price
     build: .
     environment:

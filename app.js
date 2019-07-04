@@ -38,11 +38,19 @@ app.get('/v1/price', function (req, res) {
     // TBD: Verify parameters...
     mongo.getLatest2(source, convert, function(price) {
         if (price) {
-            res.json({ code: 0, source, convert, price: price[0].value, 
-                add_time: price[0].add_time, platform: price[0].platform, 
+            res.json({ code: 0, source, convert, price: price[0].value,
+                add_time: price[0].add_time, platform: price[0].platform,
                 update_time: price[0].update_time });
         } else {
-            res.json({ code: 999 });
+            mongo.getLatest2(convert, source, function (xprice) {
+                if (xprice) {
+                    res.json({ code: 0, source, convert, price: 1/(xprice[0].value),
+                        add_time: xprice[0].add_time, platform: xprice[0].platform,
+                        update_time: xprice[0].update_time });
+                } else {
+                    res.json({ code: 999 });
+                }
+            })
         }
     });
 })
@@ -56,10 +64,19 @@ app.get('/v1/exchange', function(req, res) {
         if (price) {
             const changed = amount * price[0].value;
             res.json({ code: 0, source, convert, price: price[0].value, changed,
-                add_time: price[0].add_time, platform: price[0].platform, 
+                add_time: price[0].add_time, platform: price[0].platform,
                 update_time: price[0].update_time });
         } else {
-            res.json({ code: 999 });
+            mongo.getLatest2(convert, source, function (xprice) {
+                if (xprice) {
+                    const changed = amount / xprice[0].value;
+                    res.json({ code: 0, source, convert, price: 1/(xprice[0].value), changed,
+                        add_time: xprice[0].add_time, platform: xprice[0].platform,
+                        update_time: xprice[0].update_time });
+                } else {
+                    res.json({ code: 999 });
+                }
+            })
         }
     })
 })
