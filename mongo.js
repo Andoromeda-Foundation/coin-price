@@ -57,7 +57,7 @@ module.exports.addLatest = function(source, convert, price) {
                 return;
             }
             console.log(newPrice);
-            console.log(res);
+            // console.log(res);
             console.log('Add to Database Done...');
         });
     })

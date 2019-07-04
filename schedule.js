@@ -28,7 +28,7 @@ module.exports.updateCoinPrice = function(source, convert) {
             return;
         }
         // console.log(resp);
-        console.log(body);
+        // console.log(body);
         console.log('Latest Price Catched...');
         const resData = JSON.parse(body);
         mongo.addLatest(source, convert, resData['data'][source]['quote'][convert]['price']);
