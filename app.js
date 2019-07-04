@@ -32,6 +32,7 @@ app.all('*', function(req, res, next) {
 })
 
 app.get('/v1/price', function (req, res) {
+    console.log(`Request from ${req.ip} with method ${req.method} originalUrl ${req.originalUrl}`);
     const source = req.query.source;
     const convert = req.query.convert;
     mongo.getLatest2(source, convert, function(price) {
