@@ -34,7 +34,7 @@ app.all('*', function(req, res, next) {
 app.get('/v1/price', function (req, res) {
     const source = req.query.source;
     const convert = req.query.convert;
-    mongo.getLatest2(source, function(price) {
+    mongo.getLatest2(source, convert, function(price) {
         if (price) {
             res.json({ source, convert, price: price[0].value, 
                 add_time: price[0].add_time, platform: price[0].platform, 

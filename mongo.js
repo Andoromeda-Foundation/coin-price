@@ -25,14 +25,14 @@ module.exports.getLatest = async function getLatest(token) {
 }
 
 // callback版本
-module.exports.getLatest2 = function(token, callback) {
+module.exports.getLatest2 = function(token, base, callback) {
     MongoClient.connect(url, { useNewUrlParser: true }, function(err, db) {
         if (err) {
             console.log(err);
             callback(null);
         }
         const dbobj = db.db('coin-price-test');
-        dbobj.collection('prices').find({token}).sort({_id: -1}).limit(1).toArray(function(err, result) {
+        dbobj.collection('prices').find({ token, base }).sort({_id: -1}).limit(1).toArray(function(err, result) {
             if (err) {
                 console.log(err);
                 callback(null);
