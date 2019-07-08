@@ -13,7 +13,7 @@ const config = require('./config.json');
 const defaultConfig = config.dev;
 const port = defaultConfig.node_port;
 
-cron.schedule('*/2 * * * *', function() {
+cron.schedule('*/15 * * * *', function() {
     sch.schtest();
     _.each(defaultConfig.coin_pairs, function (pair) {
         sch.updateCoinPrice(pair.source, pair.convert);
